@@ -2,10 +2,8 @@ var User = new Vue({
     el: '#userList',
     data: function(){
         return {
-            title: '',
             users: [],
-            showFlag: true,
-            btnText: 'Скрыть пользователей'
+            showUserTableFlag: true
         }
     },
     created: function(){
@@ -21,14 +19,8 @@ var User = new Vue({
                 {userId: 5, surname: 'Шпак', firstName: 'Семен', patronymic: 'Семенович', avatar: ''}
             ]
         },
-        showTable: function(){
-            if (this.showFlag){
-                this.showFlag = false;
-                this.btnText = 'Показать пользователей';
-            } else {
-                this.showFlag = true;
-                this.btnText = 'Скрыть пользователей';
-            }
+        showHideTable: function(){
+            this.showUserTableFlag = !this.showUserTableFlag;
         }
     },
     filters: {
@@ -37,8 +29,15 @@ var User = new Vue({
         }
     },
     computed: {
-        countUsers: function(){
-            return this.users.length;
+        titleUsersTable: function(){
+            return 'Всего пользователей: ' + this.users.length;
+        },
+        btnText: function(){
+            if (this.showUserTableFlag){
+                return 'Скрыть пользователей';
+            } else {
+                return 'Показать пользователей';
+            }
         }
     },
     directives: {
@@ -68,4 +67,3 @@ var User = new Vue({
         }
     }
 })
-User.title = 'Всего пользователей: ' + User.countUsers;
