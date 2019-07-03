@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<style>
+    [v-cloak] {display: none;}
+</style>
+<div class="container" id="userList" v-cloak>
+    <div class="row">
+        <div class="col-md-9"><h3>{{title}}</h3></div>
+        <div class="col-md-3 text-right">
+            <br>
+            <button class="btn btn-primary" v-on:click="showTable" v-tooltip>{{btnText}}</button>
+        </div>
+
+    </div>
+    <div class="row">
+        <table class="table table-striped users" v-if="showFlag">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Аватар</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in users" v-bind:key="user.userId">
+                    <td><button class="btn btn-info" v-copy v-bind:data-id="user.userId">Копировать ФИО в поле ввода</button></td>
+                    <td>{{user.surname | upperText}}</td>
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.patronymic}}</td>
+                    <td>
+                        <img v-if="user.avatar" v-bind:src="user.avatar"/>
+                        <img v-else src="img/nouser.jpg"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <label>Здесь появится ФИО </label><input id="copyInput" class="form-control" type="text">
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
