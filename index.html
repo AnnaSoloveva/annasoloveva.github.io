@@ -4,46 +4,187 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="bootstrap/css/all.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
 <style>
     [v-cloak] {display: none;}
 </style>
-<div class="container" id="userList" v-cloak>
-    <div class="row">
-        <div class="col-md-9"><h3>{{titleUsersTable}}</h3></div>
-        <div class="col-md-3 text-right">
-            <br>
-            <button type="button" class="btn btn-primary" v-on:click="showHideTable" v-tooltip>{{btnText}}</button>
-        </div>
-    </div>
-    <div class="row">
-        <table class="table table-striped users" v-if="showUserTableFlag">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Фамилия</th>
-                    <th>Имя</th>
-                    <th>Отчество</th>
-                    <th>Аватар</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in users" v-bind:key="user.userId">
-                    <td><button class="btn btn-info" v-copy v-bind:data-id="user.userId">Копировать ФИО в поле ввода</button></td>
-                    <td>{{user.surname | upperText}}</td>
-                    <td>{{user.firstName}}</td>
-                    <td>{{user.patronymic}}</td>
-                    <td><img v-bind:src="user.avatar ? user.avatar : 'img/nouser.jpg'"/></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="row">
-        <label>Здесь появится ФИО </label><input id="copyInput" class="form-control" type="text">
+<div id="admin" v-cloak>
+    <main-menu v-bind:tab = "currentTabContent" v-on:select-tab="selectTab"></main-menu>
+    <div class="content-wrapper">
+        <div v-bind:is="currentTabContent" v-bind:datauser="userInfo" v-on:open-user="openUserInfo"></div>
+        <!--<users-list v-bind:users="users"></users-list>
+        <edit-user>
+
+        </edit-user>-->
     </div>
 </div>
+
+
+<template id="mainMenu">
+    <nav class="navbar navbar-dark bg-dark" id="menuAdmin">
+        <div class="container">
+            <a class="navbar-brand" href="" v-on:click.prevent="selectTab('mainPage')" href=""><img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""></a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" v-bind:class="{active : usersListTabActive }" href="" v-on:click.prevent="selectTab('usersListTab')">Список пользователей</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-bind:class="{active : userAddTabActive }" href="" v-on:click.prevent="selectTab('addUserTab')">Добавить пользователя</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</template>
+
+<template id="usersList">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Список пользователей</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col card">
+                <div class="card-body">
+                    <div class="card-title">{{titleUsersTable}}</div>
+                    <table class="table table-striped users">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Логин</th>
+                            <th>ФИО</th>
+                            <th>Email</th>
+                            <th>Телефон</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="user in datauser" v-bind:key="user.id">
+                            <td><i class="far fa-edit" v-on:click="openEditUser(user.id)"></i> </td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.phone}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="formAddUser">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Добавить пользователя</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col card">
+                <div class="card-body">
+                    <div class="card-title"></div>
+                    <form>
+                        <div class="form-group">
+                            <label for="login">Логин</label>
+                            <input type="text" class="form-control" id="login" placeholder="Ivanov" v-model="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="fio">ФИО</label>
+                            <input type="text" class="form-control" id="fio" placeholder="Иванов Иван Иванович" v-model="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email1">Email address</label>
+                            <input type="email" class="form-control" id="email1" placeholder="test@test.com" v-model="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">ФИО</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="+79999999999" v-model="phone">
+                        </div>
+                        <button type="submit" class="btn btn-warning">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="formEditUser">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Редактировать профиль</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col card">
+                <div class="card-body">
+                    <div class="card-title"></div>
+                    <form>
+                        <div class="form-group">
+                            <label for="login">Логин</label>
+                            <input type="text" class="form-control" id="login" v-model="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="fio">ФИО</label>
+                            <input type="text" class="form-control" id="fio" :placeholder="datauser.name" v-model="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email1">Email address</label>
+                            <input type="email" class="form-control" id="email1" placeholder="test@test.com" v-model="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">ФИО</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="+79999999999" v-model="phone">
+                        </div>
+                        <button type="button" class="btn btn-warning">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="mainPage">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Главная</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col card">
+                <div class="card-body">
+                    <table class="table table-striped users">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Логин</th>
+                            <th>ФИО</th>
+                            <th>Email</th>
+                            <th>Телефон</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="user in datauser" v-bind:key="user.id">
+                            <td><i class="far fa-edit" v-on:click="openEditUser(user.id)"></i> </td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.phone}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 <script src="script.js"></script>
 </body>
