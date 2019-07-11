@@ -20,8 +20,35 @@
 import AddUser from '../components/AddUser'
 export default {
     name: 'Add',
+    data: function() {
+        return {
+            users: [],
+            lastId: 0
+        }
+    },
     components: {
         'add-user': AddUser
+    },
+    created() {
+        this.loadUsers()
+    },
+    methods: {
+        loadUsers: function() {
+            var self = this,
+                xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:3000/users/', true);
+            xhr.send();
+            xhr.onload = function() {
+                self.users = JSON.parse(xhr.response)
+                self.lastId = self.users[self.users.length - 1].id
+            }
+            xhr.error = function() {
+                console.error('error load users list')
+            }
+        },
+        addUser: function () {
+
+        }
     }
 }
 </script>
