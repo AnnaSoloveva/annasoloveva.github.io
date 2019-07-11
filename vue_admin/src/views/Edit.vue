@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="display-4">Редактировать профиль</h1>
+                <h1 class="display-4">{{ titleForm }}</h1>
             </div>
         </div>
         <div class="row">
@@ -34,6 +34,15 @@
         },
         mounted() {
             this.loadUser()
+        },
+        computed: {
+            titleForm: function() {
+                    if (this.user.firstName != undefined){
+                        return 'Редактировать ' + this.user.firstName + ' ' + this.user.lastName
+                    } else {
+                        return 'Редактировать профиль'
+                    }
+                }
         },
         methods: {
             loadUser: function() {
