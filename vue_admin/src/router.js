@@ -1,35 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home.vue'
-import Edit from '@/views/Edit.vue'
-import Users from '@/views/Users.vue'
-import Add from '@/views/Add.vue'
 
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: () => import('./views/Home.vue')
         },
         {
-            path: '/edit',
+            path: '/edit/:id',
             name: 'edit',
-            props: true ,
-            component: Edit
+            props: true,
+            component: () => import('./views/Edit.vue')
         },
         {
             path: '/users',
             name: 'users',
-            component: Users
+            component: () => import('./views/Users.vue')
         },
         {
             path: '/add',
             name: 'add',
-            component: Add
+            component: () => import('./views/Add.vue')
         }
     ],
-    linkActiveClass: "active"
+    linkExactActiveClass: 'active'
 })

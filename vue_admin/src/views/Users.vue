@@ -6,46 +6,40 @@
             </div>
         </div>
         <div class="row">
-            <div v-if="!users.length" class="col card">
-                <div class="card-body">
-                    <div class="spinner-border text-info" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-            </div>
-            <users-list v-else :users="users"></users-list>
+            <users-list :users="users" @delete-user="deleteUser"></users-list>
         </div>
     </div>
 </template>
 
 <script>
-import UsersList from '../components/UsersList'
+import axios from 'axios'
 export default {
     name: 'Users',
     components: {
-        'users-list': UsersList
+        'users-list': () => import('../components/UsersList.vue')
     },
     data: () => ({
         users: []
     }),
-    mounted() {
+    created() {
         this.loadUsers()
     },
     methods: {
-        loadUsers: function() {
-            var self = this,
-                xhr = new XMLHttpRequest()
-            xhr.open('GET', 'http://localhost:3000/users/', true)
-            xhr.send()
-            xhr.onload = function() {
-                self.users = JSON.parse(xhr.response)
-            }
-            xhr.error = function() {
-                console.error('error load users list')
-            }
+        loadUsers() {
+            axios
+                .get('http://localhost:3000/users/')
+                .then(response => response.data)
+                .then(users => {
+                    this.users = users
+                })
+                .catch(error => console.error(error))
+        },
+        deleteUser(idUser) {
+            axios
+                .delete('http://localhost:3000/users/' + idUser, this.user)
+                .then(() => this.loadUsers())
+                .catch(error => console.error(error))
         }
     }
 }
 </script>
-
-<style scoped></style>

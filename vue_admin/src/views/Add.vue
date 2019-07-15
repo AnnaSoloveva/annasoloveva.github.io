@@ -9,7 +9,13 @@
             <div class="col card">
                 <div class="card-body">
                     <div class="card-title"></div>
-                    <add-user></add-user>
+                    <form-user v-model="user"></form-user>
+                    <div class="form-group">
+                        <router-link class="btn btn-warning" to="/users">Отмена</router-link>
+                        <button type="submit" class="btn btn-primary" @click="addUser">
+                            Добавить
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -17,40 +23,41 @@
 </template>
 
 <script>
-import AddUser from '../components/AddUser'
+import axios from 'axios'
+var today = new Date()
 export default {
     name: 'Add',
-    data: function() {
+    components: {
+        'form-user': () => import('../components/FormUser.vue')
+    },
+    data() {
         return {
-            users: [],
-            lastId: 0
+            user: {
+                id: 0,
+                isActive: true,
+                balance: 0,
+                picture: '',
+                age: '',
+                accessLevel: 'user',
+                firstName: '',
+                lastName: '',
+                company: '',
+                email: '',
+                phone: '',
+                address: '',
+                about: '',
+                registered:
+                    today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear()
+            }
         }
     },
-    components: {
-        'add-user': AddUser
-    },
-    created() {
-        this.loadUsers()
-    },
     methods: {
-        loadUsers: function() {
-            var self = this,
-                xhr = new XMLHttpRequest();
-            xhr.open('GET', 'http://localhost:3000/users/', true);
-            xhr.send();
-            xhr.onload = function() {
-                self.users = JSON.parse(xhr.response)
-                self.lastId = self.users[self.users.length - 1].id
-            }
-            xhr.error = function() {
-                console.error('error load users list')
-            }
-        },
-        addUser: function () {
-
+        addUser() {
+            axios
+                .post('http://localhost:3000/users/', this.user)
+                .then(() => location.reload())
+                .catch(error => console.error(error))
         }
     }
 }
 </script>
-
-<style scoped></style>

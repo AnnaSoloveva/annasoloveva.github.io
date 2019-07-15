@@ -12,12 +12,12 @@
                     />
                 </router-link>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <router-link to="/users" class="nav-link">Список пользователей</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link to="/add" class="nav-link">Добавить пользователя</router-link>
-                    </li>
+                    <router-link tag="li" class="nav-item" to="/users">
+                        <a class="nav-link">Список пользователей</a>
+                    </router-link>
+                    <router-link tag="li" class="nav-item" to="/add">
+                        <a class="nav-link">Добавить пользователя</a>
+                    </router-link>
                 </ul>
             </div>
         </nav>
