@@ -9,10 +9,10 @@
             <div class="col card">
                 <div class="card-body">
                     <div class="card-title"></div>
-                    <form-user v-model="user"></form-user>
+                    <form-user v-if="user" v-model="user"></form-user>
                     <div class="form-group">
                         <router-link class="btn btn-warning" to="/users">Отмена</router-link>
-                        <button type="submit" class="btn btn-primary" @click="saveUser">
+                        <button type="button" class="btn btn-primary" @click="saveUser">
                             Сохранить
                         </button>
                     </div>
@@ -27,11 +27,11 @@ import axios from 'axios'
 export default {
     name: 'Edit',
     components: {
-        'form-user': () => import('../components/FormUser.vue')
+        'form-user': () => import('@/components/FormUser.vue')
     },
     data() {
         return {
-            user: {}
+            user: null
         }
     },
     computed: {
@@ -39,7 +39,7 @@ export default {
             return this.$route.params.id
         },
         titleForm() {
-            if (this.user.firstName != undefined) {
+            if (this.user) {
                 return this.user.firstName + ' ' + this.user.lastName
             } else {
                 return 'Редактировать профиль'
@@ -63,6 +63,10 @@ export default {
                 .catch(error => console.error(error))
         },
         saveUser() {
+            this.$validator.validateAll()
+            if (this.errors.any()) {
+                return
+            }
             axios
                 .patch(this.url, this.user)
                 .then(() => this.$router.push('/users'))

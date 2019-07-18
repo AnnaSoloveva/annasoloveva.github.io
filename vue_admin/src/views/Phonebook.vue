@@ -6,7 +6,18 @@
             </div>
         </div>
         <div class="row">
-            <users-list :users="users" @delete-user="deleteUser"></users-list>
+            <users-list :users="users" @delete-user="deleteUser">
+                <template v-slot:table-header>
+                    <th>#</th>
+                    <th>ФИО</th>
+                    <th>Телефон</th>
+                </template>
+                <template v-slot:table-body="{ user }">
+                    <th>#{{ user.id }}</th>
+                    <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    <td>{{ user.phone }}</td>
+                </template>
+            </users-list>
         </div>
     </div>
 </template>
@@ -14,7 +25,7 @@
 <script>
 import axios from 'axios'
 export default {
-    name: 'Users',
+    name: 'Phonebook',
     components: {
         'users-list': () => import('@/components/UsersList.vue')
     },

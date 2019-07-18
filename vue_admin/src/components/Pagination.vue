@@ -16,7 +16,7 @@
                 class="page-item"
                 :class="{ active: localCurrentPage === page }"
             >
-                <a class="page-link" @click.prevent="$emit('change', page)">
+                <a class="page-link" @click.prevent="$emit('input', page)">
                     {{ page }}
                 </a>
             </li>
@@ -37,8 +37,7 @@
 export default {
     name: 'Pagination',
     model: {
-        prop: 'currentPage',
-        event: 'change'
+        prop: 'currentPage'
     },
     props: {
         currentPage: {
@@ -62,19 +61,18 @@ export default {
         filterdItems() {
             if (this.range >= this.pages) {
                 return this.pagesArr
-            } else {
-                let start = 0
-                let delta = Math.ceil(this.range / 2)
-                if (this.currentPage - delta > this.pages - this.range) {
-                    start = this.pages - this.range + 1
-                } else {
-                    if (this.currentPage - delta < 0) {
-                        delta = this.currentPage
-                    }
-                    start = this.currentPage - delta
-                }
-                return this.pagesArr.slice(start, start + this.range)
             }
+            let start = 0
+            let delta = Math.ceil(this.range / 2)
+            if (this.currentPage - delta > this.pages - this.range) {
+                start = this.pages - this.range + 1
+            } else {
+                if (this.currentPage - delta < 0) {
+                    delta = this.currentPage
+                }
+                start = this.currentPage - delta
+            }
+            return this.pagesArr.slice(start, start + this.range)
         }
     },
     watch: {

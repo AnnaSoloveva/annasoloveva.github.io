@@ -6,15 +6,15 @@
       "balance": "$2,640.15",
       "picture": "/assets/avatar/6.jpg",
       "age": 22,
-      "accessLevel": "admin",
+      "accessLevel": "guest",
       "firstName": "Sharpe",
       "lastName": "Hunter",
       "company": "VORTEXACO",
       "email": "sharpe.hunter@vortexaco.co.uk",
       "phone": "+7 (862) 587-2285",
       "address": "940 Seagate Terrace, Roulette, Nevada, 7220",
-      "about": "Anim quis ipsum eiusmod excepteur exercitation ullamco voluptate ex veniam et mollit exercitation. Enim aliquip dolore ea anim. Nostrud proident amet laborum pariatur consequat aliquip sit qui mollit quis. Mollit laborum duis aliquip esse consectetur anim aute exercitation nisi eiusmod nisi sint ea velit. Laboris qui sint ex dolor cupidatat velit magna eu aute tempor ea.",
-      "registered": "29.04.2016"
+      "about": "<p><strong style=\"color: rgb(107, 36, 178);\">lorem Ipsum</strong></p>",
+      "registered": "26.02.2017"
     },
     {
       "id": 1,
@@ -225,22 +225,6 @@
       "registered": "26.09.2015"
     },
     {
-      "id": 14,
-      "isActive": true,
-      "balance": "$3,136.10",
-      "picture": "/assets/avatar/5.jpg",
-      "age": 31,
-      "accessLevel": "user",
-      "firstName": "Villarreal",
-      "lastName": "Herrera",
-      "company": "NAMEGEN",
-      "email": "villarreal.herrera@namegen.net",
-      "phone": "+7 (862) 451-3529",
-      "address": "556 Tennis Court, Woodlake, North Dakota, 1930",
-      "about": "Lorem esse exercitation voluptate est ea. Amet eu dolor laboris in. Non quis dolor qui et non anim aute. Minim sunt ut enim anim commodo eu dolor quis ad velit elit. Lorem deserunt sint laborum ullamco. Non minim esse esse magna dolor occaecat. Proident id sit aute pariatur eiusmod in reprehenderit id.",
-      "registered": "22.01.2014"
-    },
-    {
       "id": 15,
       "isActive": true,
       "balance": "$1,855.96",
@@ -343,14 +327,14 @@
       "picture": "",
       "age": "",
       "accessLevel": "user",
-      "firstName": "test",
-      "lastName": "test",
+      "firstName": "",
+      "lastName": "",
       "company": "",
-      "email": "test@tets.ru",
+      "email": "",
       "phone": "",
-      "address": "test",
-      "about": "test",
-      "registered": "14.7.2019"
+      "address": "",
+      "about": "",
+      "registered": "18.7.2019"
     }
   ]
 }

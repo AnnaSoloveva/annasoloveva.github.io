@@ -11,29 +11,39 @@
                 <select-count v-model="count"></select-count>
                 <table class="table table-striped users">
                     <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th>ФИО</th>
-                            <th>Email</th>
-                            <th>Телефон</th>
-                        </tr>
+                        <slot name="table-header">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>ФИО</th>
+                                <th>Email</th>
+                                <th>Телефон</th>
+                                <th>Возраст</th>
+                                <th>Баланс</th>
+                                <th>Компания</th>
+                            </tr>
+                        </slot>
                     </thead>
                     <tbody>
                         <tr v-for="user in filterUser" :key="user.id">
-                            <td>
-                                <router-link :to="'/edit/' + user.id">
-                                    <font-awesome-icon icon="edit" />
-                                </router-link>
-                                &nbsp;
-                                <a @click.prevent="deleteUser(user.id)">
-                                    <font-awesome-icon icon="trash-alt" />
-                                </a>
-                            </td>
-                            <td><img :src="user.picture" /></td>
-                            <td>{{ user.firstName }} {{ user.lastName }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.phone }}</td>
+                            <slot name="table-body" :user="user">
+                                <td>
+                                    <router-link :to="'/edit/' + user.id">
+                                        <font-awesome-icon icon="edit" />
+                                    </router-link>
+                                    &nbsp;
+                                    <a @click.prevent="deleteUser(user.id)">
+                                        <font-awesome-icon icon="trash-alt" />
+                                    </a>
+                                </td>
+                                <td><img :src="user.picture" /></td>
+                                <td>{{ user.firstName }} {{ user.lastName }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.age }}</td>
+                                <td>{{ user.balance }}</td>
+                                <td>{{ user.company }}</td>
+                            </slot>
                         </tr>
                     </tbody>
                 </table>
@@ -65,7 +75,7 @@ export default {
             count: 5,
             flagPages: true,
             currentPage: 1,
-            filterUser: this.users.slice(0, 0)
+            filterUser: this.users.slice(0, 5)
         }
     },
     computed: {
@@ -77,11 +87,7 @@ export default {
             }
         },
         pages() {
-            if (this.count > 0) {
-                return Math.ceil(this.users.length / this.count)
-            } else {
-                return Math.ceil(this.users.length / 5)
-            }
+            return Math.ceil(this.users.length / this.count)
         }
     },
     watch: {
@@ -90,11 +96,10 @@ export default {
             handler() {
                 this.checkPage()
                 this.currentPage = 1
-                if (this.count > 0) {
-                    this.filterUser = this.users.slice(0, this.count)
-                } else {
-                    this.filterUser = this.users.slice(0, 5)
+                if (this.count <= 0) {
+                    this.count = 5
                 }
+                this.filterUser = this.users.slice(0, this.count)
             }
         },
         users: {
@@ -106,7 +111,7 @@ export default {
         currentPage: {
             deep: true,
             handler() {
-                var start = (this.currentPage - 1) * this.count
+                let start = (this.currentPage - 1) * this.count
                 this.GetRowTable(start)
             }
         }
@@ -114,13 +119,10 @@ export default {
     methods: {
         deleteUser(idUser) {
             this.$emit('delete-user', idUser)
+            this.currentPage = 1
         },
         checkPage() {
-            if (this.pages > 1) {
-                this.flagPages = true
-            } else {
-                this.flagPages = false
-            }
+            this.flagPages = this.pages > 1
         },
         GetRowTable(start) {
             if (this.count > 0) {

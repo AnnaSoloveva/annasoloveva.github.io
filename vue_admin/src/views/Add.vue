@@ -12,7 +12,13 @@
                     <form-user v-model="user"></form-user>
                     <div class="form-group">
                         <router-link class="btn btn-warning" to="/users">Отмена</router-link>
-                        <button type="submit" class="btn btn-primary" @click="addUser">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            :class="{ disabled: disabledFlag }"
+                            :disabled="disabledFlag"
+                            @click="addUser"
+                        >
                             Добавить
                         </button>
                     </div>
@@ -24,11 +30,12 @@
 
 <script>
 import axios from 'axios'
+import { mapFields } from 'vee-validate'
 var today = new Date()
 export default {
     name: 'Add',
     components: {
-        'form-user': () => import('../components/FormUser.vue')
+        'form-user': () => import('@/components/FormUser.vue')
     },
     data() {
         return {
@@ -48,14 +55,35 @@ export default {
                 about: '',
                 registered:
                     today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear()
+            },
+            newId: null
+        }
+    },
+    computed: {
+        ...mapFields({
+            nameFlags: 'Name',
+            emailFlags: 'Email',
+            lastNameFlags: 'LastName'
+        }),
+        disabledFlag() {
+            if (!this.nameFlags.dirty || !this.emailFlags.dirty || !this.lastNameFlags.dirty) {
+                return true
             }
+            return false
         }
     },
     methods: {
         addUser() {
+            this.$validator.validateAll()
+            if (this.errors.any()) {
+                return
+            }
             axios
                 .post('http://localhost:3000/users/', this.user)
-                .then(() => location.reload())
+                .then(response => {
+                    this.newId = response.data.id
+                    this.$router.push('/edit/' + this.newId)
+                })
                 .catch(error => console.error(error))
         }
     }

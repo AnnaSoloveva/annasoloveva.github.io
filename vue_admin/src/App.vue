@@ -18,6 +18,9 @@
                     <router-link tag="li" class="nav-item" to="/add">
                         <a class="nav-link">Добавить пользователя</a>
                     </router-link>
+                    <router-link tag="li" class="nav-item" to="/phonebook">
+                        <a class="nav-link">Телефонный справочник</a>
+                    </router-link>
                 </ul>
             </div>
         </nav>
