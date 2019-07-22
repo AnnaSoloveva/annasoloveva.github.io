@@ -1,6 +1,6 @@
 <template>
     <div class="input-group-append">
-        <button ref="calendar" class="btn btn-outline-secondary" type="button" :value="value">
+        <button ref="calendar" class="btn btn-outline-secondary" type="button">
             <font-awesome-icon icon="calendar-alt" />
         </button>
     </div>

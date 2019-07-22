@@ -19,11 +19,8 @@ export default {
     },
     data() {
         return {
-            content: null
+            content: this.value
         }
-    },
-    mounted() {
-        this.content = this.value
     },
     methods: {
         saveChange() {

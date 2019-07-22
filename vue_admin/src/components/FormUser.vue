@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="localUser">
+        <div>
             <div class="form-group">
                 <div class="media">
                     <img
@@ -177,7 +177,7 @@ export default {
     },
     data() {
         return {
-            localUser: null,
+            localUser: Object.assign({}, this.user),
             accessList: ['guest', 'user', 'admin']
         }
     },
@@ -197,9 +197,6 @@ export default {
                 this.$emit('input', Object.assign({}, this.localUser))
             }
         }
-    },
-    mounted() {
-        this.localUser = Object.assign({}, this.user)
     }
 }
 </script>

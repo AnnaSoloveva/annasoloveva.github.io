@@ -6,39 +6,33 @@
             </div>
         </div>
         <div class="row">
-            <users-list :users="users" @delete-user="deleteUser"></users-list>
+            <div v-if="!users">
+                <div class="spinner-border text-info" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <users-list v-else :users="users" @delete-user="deleteUser"></users-list>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     name: 'Users',
     components: {
         'users-list': () => import('@/components/UsersList.vue')
     },
-    data: () => ({
-        users: []
-    }),
-    created() {
-        this.loadUsers()
+    computed: {
+        users() {
+            return this.$store.getters.USERS
+        }
+    },
+    mounted() {
+        this.$store.dispatch('GET_USERS')
     },
     methods: {
-        loadUsers() {
-            axios
-                .get('http://localhost:3000/users/')
-                .then(response => response.data)
-                .then(users => {
-                    this.users = users
-                })
-                .catch(error => console.error(error))
-        },
         deleteUser(idUser) {
-            axios
-                .delete('http://localhost:3000/users/' + idUser, this.user)
-                .then(() => this.loadUsers())
-                .catch(error => console.error(error))
+            this.$store.dispatch('DELETE_USER', idUser)
         }
     }
 }

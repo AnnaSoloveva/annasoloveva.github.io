@@ -2,12 +2,7 @@
     <div class="col card">
         <div class="card-body">
             <div class="card-title">{{ titleUsersTable }}</div>
-            <div v-if="!users.length">
-                <div class="spinner-border text-info" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <div v-else>
+            <div>
                 <select-count v-model="count"></select-count>
                 <table class="table table-striped users">
                     <thead>
@@ -48,7 +43,7 @@
                     </tbody>
                 </table>
                 <pagination-comp
-                    v-if="flagPages"
+                    v-if="pages > 1"
                     v-model="currentPage"
                     :pages="pages"
                 ></pagination-comp>
@@ -61,8 +56,8 @@
 export default {
     name: 'UsersList',
     components: {
-        'select-count': () => import('../components/SelectCountList.vue'),
-        'pagination-comp': () => import('../components/Pagination.vue')
+        'select-count': () => import('@/components/SelectCountList.vue'),
+        'pagination-comp': () => import('@/components/Pagination.vue')
     },
     props: {
         users: {
@@ -73,63 +68,31 @@ export default {
     data() {
         return {
             count: 5,
-            flagPages: true,
-            currentPage: 1,
-            filterUser: this.users.slice(0, 5)
+            currentPage: 1
         }
     },
     computed: {
+        filterUser() {
+            let start = (this.currentPage - 1) * this.count
+            return this.users.slice(start, start + this.count)
+        },
         titleUsersTable() {
-            if (this.users.length > 0) {
-                return 'Всего пользователей: ' + this.users.length
-            } else {
-                return 'Список пользователей'
-            }
+            return this.users.length > 0
+                ? 'Всего пользователей: ' + this.users.length
+                : 'Список пользователей'
         },
         pages() {
             return Math.ceil(this.users.length / this.count)
         }
     },
     watch: {
-        count: {
-            deep: true,
-            handler() {
-                this.checkPage()
-                this.currentPage = 1
-                if (this.count <= 0) {
-                    this.count = 5
-                }
-                this.filterUser = this.users.slice(0, this.count)
-            }
-        },
-        users: {
-            deep: true,
-            handler() {
-                this.filterUser = this.users.slice(0, this.count)
-            }
-        },
-        currentPage: {
-            deep: true,
-            handler() {
-                let start = (this.currentPage - 1) * this.count
-                this.GetRowTable(start)
-            }
+        count() {
+            this.currentPage = 1
         }
     },
     methods: {
         deleteUser(idUser) {
             this.$emit('delete-user', idUser)
-            this.currentPage = 1
-        },
-        checkPage() {
-            this.flagPages = this.pages > 1
-        },
-        GetRowTable(start) {
-            if (this.count > 0) {
-                this.filterUser = this.users.slice(start, start + this.count)
-            } else {
-                this.filterUser = this.users.slice(0, 5)
-            }
         }
     }
 }

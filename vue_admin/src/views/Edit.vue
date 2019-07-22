@@ -7,9 +7,9 @@
         </div>
         <div class="row">
             <div class="col card">
-                <div class="card-body">
+                <div v-if="user" class="card-body">
                     <div class="card-title"></div>
-                    <form-user v-if="user" v-model="user"></form-user>
+                    <form-user v-model="user"></form-user>
                     <div class="form-group">
                         <router-link class="btn btn-warning" to="/users">Отмена</router-link>
                         <button type="button" class="btn btn-primary" @click="saveUser">
@@ -39,11 +39,9 @@ export default {
             return this.$route.params.id
         },
         titleForm() {
-            if (this.user) {
-                return this.user.firstName + ' ' + this.user.lastName
-            } else {
-                return 'Редактировать профиль'
-            }
+            return this.user
+                ? this.user.firstName + ' ' + this.user.lastName
+                : 'Редактировать профиль'
         },
         url() {
             return 'http://localhost:3000/users/' + this.userId
@@ -69,7 +67,9 @@ export default {
             }
             axios
                 .patch(this.url, this.user)
-                .then(() => this.$router.push('/users'))
+                .then(() => {
+                    this.$router.push('/users')
+                })
                 .catch(error => console.error(error))
         }
     }

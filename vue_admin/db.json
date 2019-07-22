@@ -13,7 +13,7 @@
       "email": "sharpe.hunter@vortexaco.co.uk",
       "phone": "+7 (862) 587-2285",
       "address": "940 Seagate Terrace, Roulette, Nevada, 7220",
-      "about": "<p><strong style=\"color: rgb(107, 36, 178);\">lorem Ipsum</strong></p>",
+      "about": "<p>1111</p>",
       "registered": "26.02.2017"
     },
     {
@@ -253,7 +253,7 @@
       "email": "nielsen.church@zboo.name",
       "phone": "+7 (914) 515-3408",
       "address": "149 India Street, Weeksville, Oklahoma, 5004",
-      "about": "Adipisicing laboris ea consectetur elit culpa adipisicing exercitation ut labore ipsum tempor. Eu qui deserunt enim nostrud ad ea do esse occaecat enim minim qui irure. Ut aliqua in ullamco duis tempor occaecat culpa exercitation labore.",
+      "about": "<p>Adipisicing laboris ea consectetur elit culpa adipisicing exercitation ut labore ipsum tempor. Eu qui deserunt enim nostrud ad ea do esse occaecat enim minim qui irure. Ut aliqua in ullamco duis tempor occaecat culpa exercitation labore.</p>",
       "registered": "21.12.2015"
     },
     {
@@ -287,54 +287,6 @@
       "address": "328 Beverley Road, Grantville, Wyoming, 7094",
       "about": "Ullamco ea reprehenderit consequat laboris nulla pariatur occaecat. Ex laborum nostrud eu aliquip. Eu ullamco cupidatat enim ipsum tempor in exercitation elit culpa nostrud culpa voluptate tempor sit. Deserunt reprehenderit ut amet elit eu irure id id.",
       "registered": "07.03.2017"
-    },
-    {
-      "id": 19,
-      "isActive": true,
-      "balance": "$2,666.92",
-      "picture": "../assets/avatar/7.jpg",
-      "age": 31,
-      "accessLevel": "admin",
-      "firstName": "Gonzales",
-      "lastName": "Reed",
-      "company": "LUNCHPOD",
-      "email": "gonzales.reed@lunchpod.us",
-      "phone": "+7 (903) 575-2726",
-      "address": "883 Garden Place, Hasty, Virginia, 5146",
-      "about": "Laboris ut nulla cupidatat ad. Eu quis et dolor amet irure proident velit fugiat eiusmod. Et anim excepteur cillum consequat duis. Irure velit ipsum commodo nisi sunt laborum exercitation nisi sit veniam est. Est veniam consequat duis adipisicing ullamco enim aliqua incididunt magna incididunt. Officia labore do exercitation eu velit incididunt veniam. Sunt anim ea labore excepteur Lorem duis in consequat ullamco cupidatat laborum.",
-      "registered": "11.06.2019"
-    },
-    {
-      "id": 20,
-      "isActive": true,
-      "balance": 0,
-      "picture": "",
-      "age": "",
-      "accessLevel": "user",
-      "firstName": "test",
-      "lastName": "test",
-      "company": "",
-      "email": "test",
-      "phone": "",
-      "address": "test",
-      "about": "test",
-      "registered": "14.7.2019"
-    },
-    {
-      "id": 21,
-      "isActive": true,
-      "balance": 0,
-      "picture": "",
-      "age": "",
-      "accessLevel": "user",
-      "firstName": "",
-      "lastName": "",
-      "company": "",
-      "email": "",
-      "phone": "",
-      "address": "",
-      "about": "",
-      "registered": "18.7.2019"
     }
   ]
 }

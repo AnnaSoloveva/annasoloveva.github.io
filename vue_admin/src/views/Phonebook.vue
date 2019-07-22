@@ -5,8 +5,8 @@
                 <h1 class="display-4">Список пользователей</h1>
             </div>
         </div>
-        <div class="row">
-            <users-list :users="users" @delete-user="deleteUser">
+        <div v-if="users" class="row">
+            <users-list :users="users">
                 <template v-slot:table-header>
                     <th>#</th>
                     <th>ФИО</th>
@@ -23,34 +23,18 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     name: 'Phonebook',
     components: {
         'users-list': () => import('@/components/UsersList.vue')
     },
-    data: () => ({
-        users: []
-    }),
-    created() {
-        this.loadUsers()
-    },
-    methods: {
-        loadUsers() {
-            axios
-                .get('http://localhost:3000/users/')
-                .then(response => response.data)
-                .then(users => {
-                    this.users = users
-                })
-                .catch(error => console.error(error))
-        },
-        deleteUser(idUser) {
-            axios
-                .delete('http://localhost:3000/users/' + idUser, this.user)
-                .then(() => this.loadUsers())
-                .catch(error => console.error(error))
+    computed: {
+        users() {
+            return this.$store.getters.USERS
         }
+    },
+    mounted() {
+        this.$store.dispatch('GET_USERS')
     }
 }
 </script>
